@@ -1,0 +1,67 @@
+version: '3.7'
+
+networks:
+  kafka-net:
+    driver: bridge
+
+services:
+  order-service:
+    build:
+      context: ./order
+      dockerfile: Dockerfile
+    container_name: order-service
+    ports:
+      - "8081:8081"
+    networks:
+      - kafka-net
+    volumes:
+      - ./order/dapr.yml:/app/config/dapr.yml  # Mount dapr.yml for order service
+
+  payment-service:
+    build:
+      context: ./payment
+      dockerfile: Dockerfile
+    container_name: payment-service
+    ports:
+      - "8082:8082"
+    networks:
+      - kafka-net
+    volumes:
+      - ./payment/dapr.yml:/app/config/dapr.yml  # Mount dapr.yml for payment service
+
+  dapr-order:
+    image: daprio/daprd:latest
+    command: [
+      "./daprd",
+      "-app-id", "order-service",
+      "-app-port", "8081",
+      "-dapr-http-port", "3500",
+      "-config", "/app/config/dapr.yml"
+    ]
+    depends_on:
+      - order-service
+    networks:
+      - kafka-net
+    ports:
+      - "3500:3500"
+    volumes:
+      - ./order/dapr.yml:/app/config/dapr.yml
+
+  dapr-payment:
+    image: daprio/daprd:latest
+    command: [
+      "./daprd",
+      "-app-id", "payment-service",
+      "-app-port", "8082",
+      "-dapr-http-port", "3501",
+      "-config", "/app/config/dapr.yml"
+    ]
+    depends_on:
+      - payment-service
+    networks:
+      - kafka-net
+    ports:
+      - "3501:3501"
+    volumes:
+      - ./payment/dapr.yml:/app/config/dapr.yml
+
