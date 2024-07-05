@@ -15,18 +15,20 @@
    Communication via localhost:
 
    - SERVICE TO SERVICE INVOCATION - "Order-service" Internally call "Payment-Service"(Endpoint is /payment)
-   http://localhost:8081/order                                     
+   
+     POST http://localhost:8081/order                                    
  
     Communication via DAPR PORT:
     - SERVICE TO SERVICE INVOCATION - "Order-service" Internally call "Payment-Service"(Endpoint is /payment)
-    http://localhost:3500/v1.0/invoke/order-service/method/order    
+    
+      POST http://localhost:3500/v1.0/invoke/order-service/method/order         
 
 3. Payment-Service:
 
     - Communication via Localhost:
    
-      http://localhost:8082/payment
+      POST http://localhost:8082/payment
 
     - Communication via DAPR:
    
-      http://localhost:3501/v1.0/invoke/payment-service/method/payment
+      POST http://localhost:3501/v1.0/invoke/payment-service/method/payment
