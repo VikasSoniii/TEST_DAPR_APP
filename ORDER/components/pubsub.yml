@@ -1,0 +1,16 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: kafka-pubsub
+spec:
+  type: pubsub.kafka
+  version: v1
+  metadata:
+    - name: brokers
+      value: "localhost:9092" # Kafka broker address
+    - name: consumerGroup
+      value: "payment-group"
+    - name: topics
+      value: "orders_topic"
+    - name: authRequired
+      value: "false"
