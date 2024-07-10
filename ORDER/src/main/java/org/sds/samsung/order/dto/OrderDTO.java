@@ -3,6 +3,8 @@ package org.sds.samsung.order.dto;
 public class OrderDTO {
     private String orderId;
     private double amount;
+
+    private Object data;
     public String getOrderId() {
         return orderId;
     }
