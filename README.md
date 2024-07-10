@@ -40,6 +40,9 @@
 ******************************************************************************************************************************************
 ********************DAPR Integration with Kafka********************
 
+Prerequistes: 
+1. Dapr CLI Setup
+2. Zookeeper and Kafka Servers Up and Running 
 
    ***********Commands to Run Services:***********
 
