@@ -5,6 +5,8 @@ import io.dapr.client.domain.HttpExtension;
 import io.dapr.client.domain.Metadata;
 import org.sds.samsung.order.constants.Constants;
 import org.sds.samsung.order.dto.OrderDTO;
+import org.sds.samsung.order.entity.Order;
+import org.sds.samsung.order.repository.OrderRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,9 @@ public class OrderService {
 
     @Autowired
     DaprClient daprClient;
+
+    @Autowired
+    OrderRepository orderRepository;
 
     public String createOrder(OrderDTO orderDTO) {
         String result = Constants.EMPTY_STR;
@@ -46,20 +51,28 @@ public class OrderService {
 
 
     //Publish Message to Kafka via DAPR CLIENT
-    public void sendMessage(OrderDTO orderDTO){
-        logger.info("starts: Publishing message: {}", orderDTO.toString());
+    public void sendMessage(Order order){
+        logger.info("starts: Publishing message: {}", order.toString());
 
         try {
             // Publishing messages
             daprClient.publishEvent(
                     Constants.PUBSUB_NAME,
                     Constants.DEFAULT_TOPIC_NAME,
-                    orderDTO,
+                    order,
                     Collections.singletonMap(Metadata.TTL_IN_SECONDS, Constants.MESSAGE_TTL_IN_SECONDS)).block();
 
-            logger.info("ends: Published message done: {}", orderDTO.toString());
+            logger.info("ends: Published message done: {}", order.toString());
         } catch (Exception e) {
             logger.info("ends: Exception while publishing message: {}", e.getMessage());
         }
+    }
+
+    public Order SaveOrderDetailDB(OrderDTO orderDTO){
+        Order order = new Order();
+        order.setOrderId(orderDTO.getOrderId());
+        order.setAmount(orderDTO.getAmount());
+
+        return orderRepository.save(order);
     }
 }

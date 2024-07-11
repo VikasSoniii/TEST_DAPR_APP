@@ -122,6 +122,7 @@ public class OrderEvent {
     }
 
         public static class Data {
+            private String id;
             private double amount;
             private String orderId;
 
@@ -143,26 +144,15 @@ public class OrderEvent {
             public void setOrderId(String orderId) {
                 this.orderId = orderId;
             }
-        }
-        private double amount;
-        private String orderId;
 
-        // Getters and setters
+            @JsonProperty("id")
+            public String getId() {
+                return id;
+            }
 
-        public double getAmount() {
-            return amount;
-        }
-
-        public void setAmount(double amount) {
-            this.amount = amount;
-        }
-
-        public String getOrderId() {
-            return orderId;
-        }
-
-        public void setOrderId(String orderId) {
-            this.orderId = orderId;
+            public void setId(String id) {
+                this.id = id;
+            }
         }
     }
 

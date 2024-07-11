@@ -42,10 +42,11 @@ public class PaymentController {
                 if (orderEventStr != null) {
                     // Parse JSON string to Java object
                     OrderEvent orderEvent = objectMapper.readValue(orderEventStr, OrderEvent.class);
-                    logger.info("Subscriber received: Order Id: " + orderEvent.getData().getOrderId() +
+                    logger.info("Subscriber received: Payment Id: " + orderEvent.getData().getOrderId() +
                             " and Amount: " + orderEvent.getData().getAmount());
-                    // Process Order Data
-                    //processOrder(orderDTO);
+                    // Process Payment Data
+                    logger.info("------Call paymentService.processPaymentDetails()----- ");
+                    paymentService.processPaymentDetails(orderEvent);
                 } else {
                     logger.warn("Received empty or null OrderEvent");
                 }
