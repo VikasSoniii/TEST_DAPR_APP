@@ -7,7 +7,7 @@ spec:
   version: v1
   metadata:
     - name: brokers
-      value: "localhost:9092" # Kafka broker address
+      value: "kafka.ns-dapr-test1.svc.cluster.local:9092" # Kafka broker address
     - name: consumerGroup
       value: "payment-group"
     - name: topics

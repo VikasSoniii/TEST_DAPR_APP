@@ -6,7 +6,7 @@ spring:
     name: payment-service
 
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: kafka.ns-dapr-test1.svc.cluster.local:9092
     consumer:
       group-id: payment-group
       auto-offset-reset: earliest
